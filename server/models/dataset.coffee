@@ -1,0 +1,1 @@
+@Datasets = new Meteor.Collection "datasets"
