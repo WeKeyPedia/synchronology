@@ -1,8 +1,9 @@
 @blocks_horizontal = (canvas, dataset)->
-  letter_size = 3
+  letter_size = 2
   line_length = 50
 
   canvas.width = (dataset.length + 1) * (line_length * letter_size + 5 * letter_size)
+  canvas.height = 388
 
   c = canvas.getContext("2d")
 
@@ -14,6 +15,7 @@
 
   for section in dataset
     do (section)->
+      y_max = Math.max y, y_max
       x = x0
       y = 0
 
@@ -47,3 +49,7 @@
               x += word * letter_size + letter_size
     
     x0 += line_length * letter_size + letter_size * 5
+
+  #canvas.height = y_max
+  console.log y_max
+  return true
