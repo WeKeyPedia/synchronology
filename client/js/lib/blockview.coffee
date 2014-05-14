@@ -1,6 +1,6 @@
 @blocks_horizontal = (canvas, dataset)->
   letter_size = 2
-  line_length = 50
+  line_length = 75
 
   canvas.width = (dataset.length + 1) * (line_length * letter_size + 5 * letter_size)
   canvas.height = 388
