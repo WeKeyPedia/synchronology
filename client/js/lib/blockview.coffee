@@ -13,43 +13,54 @@
 
   y_max = 0
 
-  for section in dataset
-    do (section)->
-      y_max = Math.max y, y_max
-      x = x0
-      y = 0
+  draw = (silent)->  
+    for section in dataset
+      do (section)->
+        y_max = Math.max y, y_max
+        x = x0
+        y = 0
 
-      next_is_title = true
+        next_is_title = true
 
-      for word in section
-        do (word)->
-          if(word == 0)
-            y += letter_size * 2
-            l = 0
-            x = x0
-          else
-            if next_is_title
-
-              c.fillStyle = "#555"
-              c.fillRect(x, y,  word * letter_size, letter_size)
-
-              l = 0
+        for word in section
+          do (word)->
+            if(word == 0)
               y += letter_size * 2
-
-              next_is_title = false
+              l = 0
+              x = x0
             else
-              if(l+word > line_length)
-                y += letter_size * 2
+              if next_is_title
+
+                c.fillStyle = "#555"
+                c.fillRect(x, y,  word * letter_size, letter_size)
+
                 l = 0
-                x = x0
+                y += letter_size * 2
 
-              c.fillStyle = "#aaa"
-              c.fillRect(x, y,  word * letter_size, letter_size)
-              l += word + 1
-              x += word * letter_size + letter_size
-    
-    x0 += line_length * letter_size + letter_size * 5
+                next_is_title = false
+              else
+                if(l+word > line_length)
+                  y += letter_size * 2
+                  l = 0
+                  x = x0
 
-  #canvas.height = y_max
+                c.fillStyle = "#aaa"
+                c.fillRect(x, y,  word * letter_size, letter_size)
+                l += word + 1
+                x += word * letter_size + letter_size
+      
+      x0 += line_length * letter_size + letter_size * 5
+
+
+  draw()
+  canvas.height = y_max
+
+  # We had to draw twice because of the resizing
+
+  x0 = 0
+  y = 0
+  l = 0
+  draw()
+
   console.log y_max
   return true
