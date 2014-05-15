@@ -1,8 +1,16 @@
 <template name="app">
 <div class="container-fluid">
 
+<h1>
+  <span class="day">{{ current_t_position }}</span>
+</h1>
+
 <div id="timeline">
-datimeline
+  <div class="controls btn-group btn-group-xs">
+    <button class="btn btn-default"><i class="fa fa-backward fa-fw"></i></button>
+    <button class="btn btn-default"><i class="fa fa-play fa-fw"></i></button>
+    <button class="btn btn-default"><i class="fa fa-forward fa-fw"></i></button>
+  </div>
 </div>
 
 <div id="items">

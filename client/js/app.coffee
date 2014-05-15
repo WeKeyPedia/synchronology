@@ -33,3 +33,6 @@ Template.app.pages = ()->
         url: "en/#{i}"
 
   r
+
+Template.app.current_t_position = ()->
+  return moment(Date.now()).format()
