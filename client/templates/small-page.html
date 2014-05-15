@@ -1,9 +1,12 @@
 <template name="smallview_page">
-<div>
-  <div class="page-info">
-    <div class="title">{{ page.title }}</div>
+<div class="minipage col-md-12">
+  <div class="page-info col-md-2">
+    <h3 class="title">{{ page.title }}</h3>
   </div>
 
-  <canvas></canvas>
+  <div class="col-md-10 viz">
+    <canvas></canvas>    
+  </div>
+
 </div>
 </template>
