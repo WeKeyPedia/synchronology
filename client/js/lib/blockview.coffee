@@ -1,8 +1,9 @@
 @blocks_horizontal = (canvas, dataset)->
+  console.log dataset
   letter_size = 2
   line_length = 75
 
-  canvas.width = (dataset.length + 1) * (line_length * letter_size + 5 * letter_size)
+  canvas.width = (dataset.blocks.length + 1) * (line_length * letter_size + 5 * letter_size)
   canvas.height = 388
 
   c = canvas.getContext("2d")
@@ -14,10 +15,11 @@
   y_max = 0
 
   draw = (silent)->  
-    for section in dataset
-      do (section)->
-        y_max = Math.max y, y_max
+    for section,key in dataset.blocks
+      do (section,key)->
         x = x0
+
+        y_max = Math.max y, y_max
         y = 0
 
         next_is_title = true
@@ -62,5 +64,5 @@
   l = 0
   draw()
 
-  console.log y_max
+#  console.log y_max
   return true

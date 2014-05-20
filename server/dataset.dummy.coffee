@@ -16,3 +16,16 @@ Meteor.startup ()->
     dataset: dumped_data2
 
   Datasets.insert data_to_import
+
+  Urls.remove {}
+
+  urls_sample =
+    set: [
+      "http://en.wikipedia.org/wiki/Crimea",
+      "http://en.wikipedia.org/wiki/Ukraine",
+      "http://en.wikipedia.org/wiki/Russia",
+      "http://en.wikipedia.org/wiki/Republic_of_Crimea",
+      "http://en.wikipedia.org/wiki/Autonomous_Republic_of_Crimea"
+    ]
+
+  Urls.insert urls_sample
