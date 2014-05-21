@@ -14,6 +14,17 @@ Template.smallview_page.helpers
   draw_timeline: (canvas_element, data)->
     if (data)
       evolution_chart canvas_element, data.data
+      @center_timeline()
+
+  center_timeline: (canvas_container)->
+    console.log canvas_container
+
+    $container = $(canvas_container)
+    $canvas = $(canvas_container).children("canvas")
+
+    x = parseInt( - $canvas.width() + ( $container.width() /2 ))
+
+    $canvas.css({ left: "#{x}px"})
 
 Template.smallview_page.created = ()->
 #  console.log @
@@ -31,6 +42,7 @@ Template.smallview_page.rendered = ()->
 
   HTTP.get timeline_url, (e,d)=>
     Template.smallview_page.draw_timeline(@find(".evolution_chart"), d)
+    Template.smallview_page.center_timeline(@find(".evolution_chart-container"), d)
 
   HTTP.get blocks_url, (e,d)=>
     Template.smallview_page.draw(@find(".smallview"), d)
