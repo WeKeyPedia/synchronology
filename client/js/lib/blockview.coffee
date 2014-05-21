@@ -1,5 +1,5 @@
 @blocks_horizontal = (canvas, dataset)->
-  console.log dataset
+  # console.log dataset
   letter_size = 2
   line_length = 75
 
@@ -66,3 +66,95 @@
 
 #  console.log y_max
   return true
+
+@evolution_chart = (canvas, dataset)->
+  # console.log dataset
+  c = canvas.getContext("2d")
+
+  size_day = 2
+
+  frame =
+    start: moment(dataset[0].timestamp).format("X")
+    end: moment(dataset[dataset.length - 1].timestamp).format("X")
+
+  console.log frame
+
+  timeline = _(dataset).reduce (memo,revision)->
+    ts = moment(revision.timestamp).format("YYYY-MM-DD")
+
+    if not(Array.isArray(memo[ts]))
+      memo[ts] = []
+
+    memo[ts].push revision.revid
+
+    memo
+  , {}
+
+  max_length = 0
+
+  _(timeline).each (t)->
+    max_length = Math.max max_length, t.length
+
+  console.log "max length", max_length
+
+  # timeline = _(timeline).sortBy (v,k)-> -k
+
+  console.log timeline
+
+  c.font = "8px"
+
+  offset_x = moment(frame.start, "X").format("X") - moment(frame.start, "X").startOf("year").format("X")
+  offset_x = parseInt( offset_x * size_day/ ( 60 * 60 * 24 ))
+
+  # console.log moment(frame.start, "X").format("X"), moment(frame.start, "X").startOf("year").format("X")
+  # console.log "offset x", offset_x
+
+  canvas.width = parseInt((moment().format("X") - frame.start) * size_day / (60*60*24)) + offset_x + 1
+  canvas.height = 30
+
+  # console.log timeline.length
+
+  # draw current day bar
+  day = moment().format("X")
+
+  x = 0.5 + offset_x + parseInt( size_day * (moment().format("X") - frame.start) / (60 * 60 * 24 ))
+  console.log "x", x
+  c.strokeStyle = "#e4b45e"
+  c.strokeWeight = 1
+  c.beginPath()
+  c.moveTo(x, 0)
+  c.lineTo(x, 30)
+  c.stroke()
+
+  for year in [moment(frame.start, "X").format("YYYY")..moment(frame.end, "X").add('y',1).format("YYYY")]
+    y = year - moment(frame.start, "X").format("YYYY")
+
+    # console.log year
+    # console.log y
+
+    x = 0.5 + y * 360 * size_day
+
+    c.strokeStyle = "#ddd"
+
+    c.beginPath()
+    c.moveTo(x, 0)
+    c.lineTo(x, 30)
+    c.stroke()
+
+    c.strokeText year, x+3, 8
+
+  c.beginPath()
+  c.moveTo(offset_x,30)
+  c.fillStyle = "#aaa"
+  c.strokeStyle = "#aaa"
+  _(timeline).each (t,k)->
+    ts = moment(k, "YYYY-MM-DD").format("X")
+    # console.log "ts", ts
+    x = offset_x + parseInt((ts - frame.start) / ( 60 * 60 * 24 )) * size_day
+    # console.log "x", x
+    y = 30 - (t.length / max_length) * 30
+    # console.log "y", y
+    #c.fillRect x,y,2,2
+    c.lineTo(x,y)
+
+  c.stroke()

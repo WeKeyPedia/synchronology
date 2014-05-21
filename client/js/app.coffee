@@ -8,12 +8,12 @@ Template.smallview_page.helpers
     Meteor.subscribe "dataset", "#{url}/blocks"
 
   draw: (canvas_element, data)->
-    # data = datasets.findOne url: "#{url}/blocks"
-
-    # # console.log data
-
     if (data)
       blocks_horizontal canvas_element, data.data
+
+  draw_timeline: (canvas_element, data)->
+    if (data)
+      evolution_chart canvas_element, data.data
 
 Template.smallview_page.created = ()->
 #  console.log @
@@ -25,11 +25,15 @@ Template.smallview_page.rendered = ()->
   revid = @data.page.revid
 
   blocks_url = "#{api_endpoint}/page/#{lang}.wikipedia.org/wiki/#{page}/revision/#{revid}/blocks"
-  
-  console.log blocks_url
+  timeline_url = "#{api_endpoint}/page/#{lang}.wikipedia.org/wiki/#{page}/timeline"
+
+  # console.log blocks_url
+
+  HTTP.get timeline_url, (e,d)=>
+    Template.smallview_page.draw_timeline(@find(".evolution_chart"), d)
 
   HTTP.get blocks_url, (e,d)=>
-    Template.smallview_page.draw(@find("canvas"), d)
+    Template.smallview_page.draw(@find(".smallview"), d)
 
 Template.app.current_t_position = ()->
   return moment(Date.now()).format()
