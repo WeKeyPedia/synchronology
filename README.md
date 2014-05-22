@@ -1,1 +1,9 @@
-![](https://www.evernote.com/shard/s4/sh/6c115db6-8f61-4e6a-bce5-130b063d5011/9edcaa6ca314afc2a5f618a2b2280ecf/res/2504bc8a-3375-4d3c-9233-72c5118ecbed/skitch.png?resizeSmall&width=832)
+# synchronology
+
+![](https://www.evernote.com/shard/s4/sh/a29c306f-fa82-49bb-befe-80b79e64f69b/e1a966cf06b266a327f45679e3ccc9d3/deep/0/synchronology.png)
+
+## features
+
+- generate small views and timelines
+- allow agnostic data origins
+- prepare for visualization of NLP and graph modelling algorithm work
