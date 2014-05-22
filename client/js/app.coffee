@@ -14,16 +14,18 @@ Template.smallview_page.helpers
   draw_timeline: (canvas_element, data)->
     if (data)
       evolution_chart canvas_element, data.data
-      @center_timeline()
+      # @center_timeline()
 
   center_timeline: (canvas_container)->
-    console.log canvas_container
+    # console.log canvas_container
 
     $container = $(canvas_container)
     $canvas = $(canvas_container).children("canvas")
 
-    x = parseInt( - $canvas.width() + ( $container.width() /2 ))
+    day = moment().format("X")
 
+    x = parseInt( -$canvas.width() + 40 + 2*(moment().endOf("year").format("X") - day)/(60*60*24) + ($container.width()/2))
+    # console.log "center_offset", x
     $canvas.css({ left: "#{x}px"})
 
 Template.smallview_page.created = ()->

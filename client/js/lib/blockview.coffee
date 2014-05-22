@@ -74,10 +74,10 @@
   size_day = 2
 
   frame =
-    start: moment(dataset[0].timestamp).format("X")
-    end: moment(dataset[dataset.length - 1].timestamp).format("X")
+    start: moment(dataset[0].timestamp).startOf("year").format("X")
+    end: moment(dataset[dataset.length - 1].timestamp).endOf("year").format("X")
 
-  console.log frame
+  # console.log frame
 
   timeline = _(dataset).reduce (memo,revision)->
     ts = moment(revision.timestamp).format("YYYY-MM-DD")
@@ -95,21 +95,23 @@
   _(timeline).each (t)->
     max_length = Math.max max_length, t.length
 
-  console.log "max length", max_length
+  # console.log "max length", max_length
 
   # timeline = _(timeline).sortBy (v,k)-> -k
 
-  console.log timeline
+  # console.log timeline
 
   c.font = "8px"
 
-  offset_x = moment(frame.start, "X").format("X") - moment(frame.start, "X").startOf("year").format("X")
-  offset_x = parseInt( offset_x * size_day/ ( 60 * 60 * 24 ))
+  offset_x = 0
+
+  # offset_x = moment(frame.start, "X").format("X") - moment(frame.start, "X").startOf("year").format("X")
+  # offset_x = parseInt( offset_x * size_day/ (60*60*24) )
 
   # console.log moment(frame.start, "X").format("X"), moment(frame.start, "X").startOf("year").format("X")
   # console.log "offset x", offset_x
 
-  canvas.width = parseInt((moment().format("X") - frame.start) * size_day / (60*60*24)) + offset_x + 1
+  canvas.width = parseInt((frame.end - frame.start) * size_day / (60*60*24)) + 40
   canvas.height = 30
 
   # console.log timeline.length
@@ -117,8 +119,11 @@
   # draw current day bar
   day = moment().format("X")
 
+  # console.log "day", day
+  # console.log "day", (moment().format("X") - frame.start) / (60 * 60 * 24 )
+
   x = 0.5 + offset_x + parseInt( size_day * (moment().format("X") - frame.start) / (60 * 60 * 24 ))
-  console.log "x", x
+  # console.log "x", x
   c.strokeStyle = "#e4b45e"
   c.strokeWeight = 1
   c.beginPath()
@@ -132,7 +137,7 @@
     # console.log year
     # console.log y
 
-    x = 0.5 + y * 360 * size_day
+    x = 0.5 + y * (moment(year, "YYYY").endOf("year").dayOfYear()) * size_day
 
     c.strokeStyle = "#ddd"
 
@@ -144,14 +149,15 @@
     c.strokeText year, x+3, 8
 
   c.beginPath()
-  c.moveTo(offset_x,30)
+  # c.moveTo(0,30)
   c.fillStyle = "#aaa"
   c.strokeStyle = "#aaa"
   _(timeline).each (t,k)->
     ts = moment(k, "YYYY-MM-DD").format("X")
     # console.log "ts", ts
-    x = offset_x + parseInt((ts - frame.start) / ( 60 * 60 * 24 )) * size_day
+    x = parseInt((ts - frame.start) / ( 60 * 60 * 24 )) * size_day
     # console.log "x", x
+    # console.log "d", parseInt((ts - frame.start) / ( 60 * 60 * 24 ))
     y = 30 - (t.length / max_length) * 30
     # console.log "y", y
     #c.fillRect x,y,2,2
